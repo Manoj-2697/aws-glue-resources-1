@@ -1,6 +1,3 @@
-# Repository: aws-glue-resources-1
-# File: main.tf
-
 terraform {
   required_version = ">= 1.5.0"
   required_providers {
@@ -11,7 +8,6 @@ terraform {
   }
 }
 
-# Job 1: Incompatible Legacy Glue 3.0 Job (Has issues)
 resource "aws_glue_job" "legacy_telemetry_processor" {
   name              = "legacy-telemetry-processor"
   role_arn          = "arn:aws:iam::123456789012:role/AWSGlueServiceRole"
@@ -28,11 +24,10 @@ resource "aws_glue_job" "legacy_telemetry_processor" {
 
   default_arguments = {
     "--job-language"              = "python"
-    "--additional-python-modules" = "pandas==2.2.2,scikit-learn>=1.4.0"
+    "--additional-python-modules" = "awswrangler==3.8.0,pandas==2.2.2,scikit-learn>=1.4.0"
   }
 }
 
-# Job 2: Clean Modern Glue 5.0 Job (No issues)
 resource "aws_glue_job" "customer_events_clean" {
   name              = "customer-events-clean"
   role_arn          = "arn:aws:iam::123456789012:role/AWSGlueServiceRole"
@@ -49,6 +44,6 @@ resource "aws_glue_job" "customer_events_clean" {
 
   default_arguments = {
     "--job-language"              = "python"
-    "--additional-python-modules" = "pydantic>=2.5.0,fastparquet>=2024.2.0"
+    "--additional-python-modules" = "awswrangler==3.8.0,pydantic>=2.5.0,fastparquet>=2024.2.0"
   }
 }
